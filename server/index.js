@@ -4,8 +4,11 @@ const io = require('socket.io')(http);
 
 var playerID = 1;
 
+console.log("woo")
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello world</h1>');
+  console.log("get worked")
 });
 
 io.on('connection', function(socket) {
