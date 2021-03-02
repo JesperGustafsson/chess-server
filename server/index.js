@@ -2,7 +2,7 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   cors: {
-      origin: ["http://localhost:3000", "https://hungry-franklin-438ea6.netlify.app/"] //needed so that port ;3000 can connect to the server at ;4000
+      origin: "https://hungry-franklin-438ea6.netlify.app/" //needed so that port ;3000 can connect to the server at ;4000
   },
 });
 
