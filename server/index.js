@@ -11,6 +11,10 @@ app.get('/', (req, res) => {
   console.log("get worked")
 });
 
+io.on('test', () => {
+  console.log("TEST WORKED!")
+})
+
 io.on('connection', function(socket) {
     console.log(`a user ${playerID} connected`);
     socket.emit("io emit", { msg:`Welcome, player ${playerID}!`, newPlayerID:playerID });
