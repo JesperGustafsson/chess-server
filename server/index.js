@@ -1,11 +1,12 @@
 const app = require('express')();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http
-  , {
-  cors: {
-      origin: true//["https://hungry-franklin-438ea6.netlify.app/", "http://localhost:3000"] //needed so that port ;3000 can connect to the server at ;4000
-  },
-});var playerID = 1;
+const io = require('socket.io')(http, {
+    cors: {
+        origin: true //"http://localhost:3000", //needed so that port ;3000 can connect to the server at ;4000
+    },
+});
+
+var playerID = 1;
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello world</h1>');
@@ -29,16 +30,18 @@ io.on('connection', function(socket) {
     socket.on('join room', (roomName) => {
       const clientsInRoom = io.sockets.adapter.rooms.get(roomName) 
       if (!clientsInRoom) { //room has no clients -> first player!
-         socket.emit("io emit", { msg:`Welcome, player 1!`, newPlayerID:1 });
+        socket.join(roomName);
+        socket.emit("io emit", { msg:`Welcome, player 1!`, newPlayerID:1 });
       } else if (clientsInRoom.size > 1) {
         console.log("room is full!")
         console.log(clientsInRoom, clientsInRoom.size)
         
       } else {
         socket.emit("io emit", { msg:`Welcome, player2!`, newPlayerID:2 });
+        socket.join(roomName);
+        io.to(roomName).emit('game start')
 
       }
-      socket.join(roomName);
       console.log("someon joined a room!", roomName)
 
     })
@@ -62,6 +65,6 @@ io.on('connection', function(socket) {
 
 
 
-http.listen(process.env.PORT || 4000, () => {
-  console.log('listening on *:4000');
+http.listen(process.env.PORT || 4001, () => {
+  console.log('listening on *:4001');
 });
