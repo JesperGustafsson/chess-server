@@ -45,9 +45,9 @@ io.on('connection', function(socket) {
 
 
     //Sets currentPlayer to next
-    socket.on('next move', ({ currentPlayer, board, roomName }) => {
+    socket.on('next move', ({ currentPlayer, newBoard, roomName }) => {
       currentPlayer == 1 ? currentPlayer = 2 : currentPlayer = 1;
-      socket.to(roomName).emit('next move received', { newCurrentPlayer: currentPlayer, newBoard: board })
+      socket.to(roomName).emit('next move received', { newCurrentPlayer: currentPlayer, newBoard: newBoard })
     });
 });
 
